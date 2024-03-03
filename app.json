@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "8e3fa754-ca23-4d5b-b89e-656931cf2f02"
+      }
+    },
+    "android": {
+      "package": "com.amol312.shopapp"
+    }
+  }
+}

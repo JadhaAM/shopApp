@@ -1,15 +1,10 @@
-const express = require("express");
-const { registerUser, authUser, allUsers } = require("../controllers");
-const { protect } = require("../middleware");
+const express = require('express');
 var bodyParser = require('body-parser')
 const textflow = require("textflow.js")
 
-textflow.useKey("ElNSNRLo1ROmsQA0YwIlznYVMW1ksRaTh2cFXwQ64lQBpDdeZQyNIbkSCdnduqTw")
+textflow.useKey("MLl7giQ23nxDAbLuCAAIocVa3pPwkDmKeg6d2Unem3YWuMRun21Aj2aQ5UgSLNE9")
 
-const router = express.Router();
-
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true }));
+const app = express();
 
 class User {
     static list = {}
@@ -27,11 +22,10 @@ class User {
     }
 }
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
 
-
-router.route("/").post(registerUser).get(protect, allUsers); // Both request supported on the same route
-router.post("/LoginScreen", authUser);
-router.post("/register", async (req, res) => {
+app.post("/register", async (req, res) => {
     const { email, phoneNumber, password, code } = req.body
 
     var result = await textflow.verifyCode(phoneNumber, code);
@@ -45,7 +39,7 @@ router.post("/register", async (req, res) => {
 
     return res.status(400).json({ success: false });
 })
-router.post("/verify", async (req, res) => {
+app.post("/verify", async (req, res) => {
     const { phoneNumber } = req.body
 
     var result = await textflow.sendVerificationSMS(phoneNumber);
@@ -56,4 +50,8 @@ router.post("/verify", async (req, res) => {
     return res.status(400).json({ success: false });
 })
 
-module.exports = router;
+app.listen( () =>
+
+console.log(`Server started on PORT 2000`)
+
+);
